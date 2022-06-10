@@ -47,7 +47,6 @@ class AntColony(object):
             for move in path:
                 self.pheromone[move] += 1.0 / self.distances[move]
 
-
     #devolve o comprimento de um caminho
     def path_dist(self, path):
         dist = 0
@@ -89,7 +88,13 @@ class AntColony(object):
         move = np.random.choice(self.all_inds, 1, p=norm_row)[0] # [0] - devolve o indice do elemento, 1 - 1 elemento, p - probablidade por elemento
         return move
 
-distancias = np.genfromtxt("distancias.txt", dtype='i', delimiter='\t') #usecols=(1,2,3,4,5,6,7,8,9,10))
+    
+    # mutation operator: a way to introduce variation in population by randomly swapping two cities in a route.
+    def mutationPopulation(individual, mutationRate):
+        return self
+
+
+distancias = np.genfromtxt("../distancias.txt", dtype='i', delimiter='\t') #usecols=(1,2,3,4,5,6,7,8,9,10))
 cities=['Aveiro', 'Beja', 'Braga', 'Braganca', 'C Branco', 'Coimbra', 'Evora', 'Faro', 'Guarda', 'Leiria', 'Lisboa', 'Portalegre', 'Porto', 'Santarem', 'Setubal', 'Valenca do Minho', 'Viana do Castelo', 'Vila Real']
 
 print(distancias)

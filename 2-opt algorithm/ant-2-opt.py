@@ -89,7 +89,7 @@ class AntColony(object):
         move = np.random.choice(self.all_inds, 1, p=norm_row)[0] # [0] - devolve o indice do elemento, 1 - 1 elemento, p - probablidade por elemento
         return move
 
-distancias = np.genfromtxt("distancias.txt", dtype='i', delimiter='\t') #usecols=(1,2,3,4,5,6,7,8,9,10))
+distancias = np.genfromtxt("../distancias.txt", dtype='i', delimiter='\t') #usecols=(1,2,3,4,5,6,7,8,9,10))
 cities=['Aveiro', 'Beja', 'Braga', 'Braganca', 'C Branco', 'Coimbra', 'Evora', 'Faro', 'Guarda', 'Leiria', 'Lisboa', 'Portalegre', 'Porto', 'Santarem', 'Setubal', 'Valenca do Minho', 'Viana do Castelo', 'Vila Real']
 
 print(distancias)
