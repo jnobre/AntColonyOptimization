@@ -91,6 +91,7 @@ class AntColony(object):
     
     # mutation operator: a way to introduce variation in population by randomly swapping two cities in a route.
     def mutationPopulation(individual, mutationRate):
+        print("MutationPopulation")
         return self
 
 
