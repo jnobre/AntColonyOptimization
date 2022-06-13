@@ -89,12 +89,16 @@ class AntColony(object):
         move = np.random.choice(self.all_inds, 1, p=norm_row)[0] # [0] - devolve o indice do elemento, 1 - 1 elemento, p - probablidade por elemento
         return move
 
+    def two_opt_move(self, pheromone, dist, visited):
+        return np.random.choice(self.all_inds, 1, p = norm_row)[0]
+
+
 distancias = np.genfromtxt("distancias.txt", dtype='i', delimiter='\t') #usecols=(1,2,3,4,5,6,7,8,9,10))
-cities=['Aveiro', 'Beja', 'Braga', 'Braganca', 'C Branco', 'Coimbra', 'Evora', 'Faro', 'Guarda', 'Leiria', 'Lisboa', 'Portalegre', 'Porto', 'Santarem', 'Setubal', 'Valenca do Minho', 'Viana do Castelo', 'Vila Real']
+cities = np.genfromtxt("cidades.txt", dtype=None, delimiter='\n', encoding='utf-8')
 
 print(distancias)
 
-pop = AntColony(distancias,n_ants=100, n_best=10, n_iterations=500, evaporation=0.05)
+pop = AntColony(distancias,n_ants=100, n_best=10, n_iterations=100, evaporation=0.05)
 best = pop.run()
 print('Best in all the iterations:')
 print(best)
