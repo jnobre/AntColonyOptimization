@@ -137,6 +137,7 @@ pop = TwoOpt(distancias, n_iterations=500, improvement_threshold=0.0000000000001
 best = pop.run()
 print('Best in all the iterations:')
 print(best)
+print("Total distance traveled: %d km" % best[1])
 l = []
 for k in best[0]:
     l.append(cities[k[0]])
@@ -145,4 +146,4 @@ print(l)
 
 x = lambda x: ' ' + str(x) if x <= 9 else str(x)
 for k in range(len(cities)):
-    print(x(k) + ' -- ' + cities[k])
+    print(x(k) + ' -- ' + l[k])
