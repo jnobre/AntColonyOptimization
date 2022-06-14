@@ -89,9 +89,6 @@ class AntColony(object):
         move = np.random.choice(self.all_inds, 1, p=norm_row)[0] # [0] - devolve o indice do elemento, 1 - 1 elemento, p - probablidade por elemento
         return move
 
-    def two_opt_move(self, pheromone, dist, visited):
-        return np.random.choice(self.all_inds, 1, p = norm_row)[0]
-
 
 distancias = np.genfromtxt("distancias.txt", dtype='i', delimiter='\t') #usecols=(1,2,3,4,5,6,7,8,9,10))
 cities = np.genfromtxt("cidades.txt", dtype=None, delimiter='\n', encoding='utf-8')
