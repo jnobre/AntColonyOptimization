@@ -1,11 +1,13 @@
 import random as rn
 import numpy as np
+from scipy import rand
+from collections import OrderedDict
 
 #from numpy.random import choice as np_choice
 
 class AntColony(object):
 
-    def __init__(self, distances, n_ants, n_best, n_iterations, evaporation, alpha=1, beta=1):
+    def __init__(self, distances, n_ants, n_best, n_iterations, evaporation, mutationRate, alpha=1, beta=1):
         """
         Args:
             distances (2D numpy.array): Square matrix of distances. Diagonal is assumed to be np.inf.
@@ -27,6 +29,7 @@ class AntColony(object):
         self.alpha = alpha
         self.beta = beta
         self.decay = 1 - evaporation
+        self.mutationRate = mutationRate
 
     def run(self):
         shortest_path = None
@@ -38,7 +41,7 @@ class AntColony(object):
             print (i,shortest_path)
             if shortest_path[1] < all_time_shortest_path[1]:
                 all_time_shortest_path = shortest_path            
-            self.pheromone *= self.decay            
+            self.pheromone *= self.decay     
         return all_time_shortest_path
 
     def spread_pheronome(self, all_paths, n_best, shortest_path):
@@ -65,6 +68,7 @@ class AntColony(object):
     #generate a path randomly with all the cities [(1,2), (2,4), (4,8), (8,1)]
     def gen_path_random(self, start):
         path = []
+        pathMutate = []
         visited = set()
         visited.add(start)
         prev = start
@@ -74,7 +78,8 @@ class AntColony(object):
             prev = move
             visited.add(move)
         path.append((prev, start)) # going back to where we started, add connection to the first node    
-        return path
+        pathMutate = self.mutatePath(path)
+        return pathMutate
 
     # determina probabilisticamente a proxima cidade a visitar
     def pick_city(self, pheromone, dist, visited):
@@ -88,30 +93,46 @@ class AntColony(object):
         move = np.random.choice(self.all_inds, 1, p=norm_row)[0] # [0] - devolve o indice do elemento, 1 - 1 elemento, p - probablidade por elemento
         return move
 
-    
+
     # mutation operator: a way to introduce variation in population by randomly swapping two cities in a route.
-    def mutationPopulation(individual, mutationRate):
-        print("MutationPopulation")
-        return self
+    def mutatePath(self, path):
+        mutatedPath = []
+        cities = list(OrderedDict.fromkeys(np.array([item for t in path for item in t]))) # extracts the cities from the list of movements of the path
+        for swapped in range(1, len(cities)):
+            if(rn.random() < self.mutationRate):
+                swapWith =  rn.randint(1, len(cities) - 1)
+
+                city1 = cities[swapped]
+                city2 = cities[swapWith]
+
+                cities[swapped] = city2
+                cities[swapWith] = city1
+        
+        # build a list of moves (tuples)
+        for i in range(len(cities) - 1):
+            mutatedPath.append((cities[i], cities[i + 1]))
+        mutatedPath.append((cities[len(cities)- 1], 0))
+        return mutatedPath
 
 
 distancias = np.genfromtxt("../distancias.txt", dtype='i', delimiter='\t') #usecols=(1,2,3,4,5,6,7,8,9,10))
-cities=['Aveiro', 'Beja', 'Braga', 'Braganca', 'C Branco', 'Coimbra', 'Evora', 'Faro', 'Guarda', 'Leiria', 'Lisboa', 'Portalegre', 'Porto', 'Santarem', 'Setubal', 'Valenca do Minho', 'Viana do Castelo', 'Vila Real']
+cities = np.genfromtxt("../cidades.txt", dtype=None, delimiter='\n', encoding='utf-8')
 
 print(distancias)
 
-pop = AntColony(distancias,n_ants=100, n_best=10, n_iterations=500, evaporation=0.05)
+pop = AntColony(distancias,n_ants=100, n_best=10, n_iterations=100, evaporation=0.05, mutationRate=0.2)
 best = pop.run()
 print('Best in all the iterations:')
 print(best)
+print("Total distance traveled: %d km" % best[1])
 l=[]
 for k in best[0]:
     l.append(cities[k[0]])
-    #print ((cities[k[0]],cities[k[1]]))
+    # print ((cities[k[0]],cities[k[1]]))
 print(l)
 
 x = lambda x: ' '+ str(x) if x <= 9 else str(x) 
 for k in range(len(cities)):
-    print( x(k) + ' -- ' + cities[k])
+    print( x(k) + ' -- ' + l[k])
 
 
