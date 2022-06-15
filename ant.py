@@ -95,7 +95,7 @@ cities = np.genfromtxt("cidades.txt", dtype=None, delimiter='\n', encoding='utf-
 
 print(distancias)
 
-pop = AntColony(distancias,n_ants=100, n_best=10, n_iterations=100, evaporation=0.05)
+pop = AntColony(distancias,n_ants=100, n_best=10, n_iterations=500, evaporation=0.8)
 best = pop.run()
 print('Best in all the iterations:')
 print(best)
