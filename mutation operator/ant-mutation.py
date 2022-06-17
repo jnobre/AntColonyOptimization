@@ -38,10 +38,10 @@ class AntColony(object):
             all_paths = self.gen_all_paths_random()
             self.spread_pheronome(all_paths, self.n_best, shortest_path=shortest_path)
             shortest_path = min(all_paths, key=lambda x: x[1])
-            print (i,shortest_path)
+            #print (i,shortest_path)
             if shortest_path[1] < all_time_shortest_path[1]:
                 all_time_shortest_path = shortest_path            
-            self.pheromone *= self.decay     
+            self.pheromone *= self.decay
         return all_time_shortest_path
 
     def spread_pheronome(self, all_paths, n_best, shortest_path):
@@ -107,7 +107,7 @@ class AntColony(object):
 
                 cities[swapped] = city2
                 cities[swapWith] = city1
-        
+                
         # build a list of moves (tuples)
         for i in range(len(cities) - 1):
             mutatedPath.append((cities[i], cities[i + 1]))
@@ -120,7 +120,7 @@ cities = np.genfromtxt("../cidades.txt", dtype=None, delimiter='\n', encoding='u
 
 print(distancias)
 
-pop = AntColony(distancias,n_ants=100, n_best=10, n_iterations=500, evaporation=0.2, mutationRate=0.032)
+pop = AntColony(distancias,n_ants=100, n_best=10, n_iterations=200, evaporation=0.8, mutationRate=0.032)
 best = pop.run()
 print('Best in all the iterations:')
 print(best)

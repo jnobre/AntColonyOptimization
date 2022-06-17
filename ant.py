@@ -35,7 +35,7 @@ class AntColony(object):
             all_paths = self.gen_all_paths_random()
             self.spread_pheronome(all_paths, self.n_best, shortest_path=shortest_path)
             shortest_path = min(all_paths, key=lambda x: x[1])
-            print (i,shortest_path)
+            #print (i,shortest_path)
             if shortest_path[1] < all_time_shortest_path[1]:
                 all_time_shortest_path = shortest_path            
             self.pheromone *= self.decay            
@@ -95,7 +95,7 @@ cities = np.genfromtxt("cidades.txt", dtype=None, delimiter='\n', encoding='utf-
 
 print(distancias)
 
-pop = AntColony(distancias,n_ants=100, n_best=10, n_iterations=500, evaporation=0.8)
+pop = AntColony(distancias,n_ants=100, n_best=10, n_iterations=200, evaporation=0.2)
 best = pop.run()
 print('Best in all the iterations:')
 print(best)

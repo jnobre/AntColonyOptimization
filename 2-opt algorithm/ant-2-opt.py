@@ -136,7 +136,7 @@ cities = np.genfromtxt("../cidades.txt", dtype=None, delimiter='\n', encoding='u
 
 print(distancias)
 
-pop = TwoOpt(distancias,n_ants=100, n_best=10, n_iterations=100, evaporation=0.05, improvement_threshold=0.001)
+pop = TwoOpt(distancias,n_ants=100, n_best=10, n_iterations=200, evaporation=0.8, improvement_threshold=0.001)
 best = pop.run()
 print('Best in all the iterations:')
 print(best)
